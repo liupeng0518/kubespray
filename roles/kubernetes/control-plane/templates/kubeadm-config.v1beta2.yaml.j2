@@ -411,7 +411,11 @@ featureGates:
 {%   endfor %}
 {% endif %}
 {# DNS settings for kubelet #}
-{% if enable_nodelocaldns %}
+{% if enable_nodelocaldns and enable_nodelocaldns_and_coredns_conf and dns_mode == 'coredns_dual' %}
+{% set kubelet_cluster_dns = [nodelocaldns_ip,skydns_server,skydns_server_secondary] %}
+{% elif enable_nodelocaldns and enable_nodelocaldns_and_coredns_conf %}
+{% set kubelet_cluster_dns = [nodelocaldns_ip,skydns_server] %}
+{% elif enable_nodelocaldns %}
 {% set kubelet_cluster_dns = [nodelocaldns_ip] %}
 {% elif dns_mode in ['coredns'] %}
 {% set kubelet_cluster_dns = [skydns_server] %}

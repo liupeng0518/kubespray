@@ -1,5 +1,5 @@
 [Resolve]
-DNS={{ ([nodelocaldns_ip] if enable_nodelocaldns else coredns_server )| list | join(' ') }}
+DNS={{ ([nodelocaldns_ip]+coredns_server if enable_nodelocaldns_and_coredns_conf else [nodelocaldns_ip] if enable_nodelocaldns else coredns_server )| list | join(' ') }}
 FallbackDNS={{ ( nameservers|d([]) + cloud_resolver|d([])) | unique | join(' ') }}
 Domains={{ ([ 'default.svc.' + dns_domain, 'svc.' + dns_domain ] + searchdomains|default([])) | join(' ') }}
 #LLMNR=no
