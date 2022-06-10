@@ -210,6 +210,8 @@ kata_containers_enabled: false
 
 kubeadm_certificate_key: "{{ lookup('password', credentials_dir + '/kubeadm_certificate_key.creds length=64 chars=hexdigits') | lower }}"
 
+etcd_local_cert_dir: "{{ credentials_dir + '/etcd.pems' }}"
+
 # K8s image pull policy (imagePullPolicy)
 k8s_image_pull_policy: IfNotPresent
 
