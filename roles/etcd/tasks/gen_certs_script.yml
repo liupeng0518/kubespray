@@ -128,13 +128,9 @@
     owner: kube
     mode: 0640
   with_items:
-    - "ca.pem"
-    - "ca-key.pem"
-    - "[{% for node in groups['etcd'] %}
-        'admin-{{ node }}.pem',
-        'admin-{{ node }}-key.pem',
-        'member-{{ node }}.pem',
-        'member-{{ node }}-key.pem',
+    - "[{% for node in (groups['k8s_cluster'] + groups['calico_rr']|default([]))|unique %}
+        'node-{{ node }}.pem',
+        'node-{{ node }}-key.pem',
         {% endfor %}]"
   when:
     - inventory_hostname in groups['etcd']
